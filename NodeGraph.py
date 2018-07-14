@@ -9,12 +9,12 @@ from operator import itemgetter
 
 def dist(xy1, xy2):
     ''' Return the distance between a pair of xy coordinates '''
-    return round(sqrt(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])), 4)
+    return sqrt(abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1]))
 
 class Graph(object):
     def __init__(self, nodes, count=10, weightiness=3):
 
-        if type(nodes) == NoneType:
+        if type(nodes) == type(None):
             nodes = []
             for i in range(0, count):
                 xy = (rng.randint(-10, 10), rng.randint(-10, 10))
@@ -23,6 +23,11 @@ class Graph(object):
             self.nodes = nodes
         else:
             self.nodes = nodes
+
+
+    def find_all_neighbors(self):
+        for node in self.nodes:
+            node.find_neighbors(self)
 
 class Node(object):
     def __init__(self, xy=(0, 0), weight=3):

@@ -1,9 +1,16 @@
 #!/usr/bin/python3
 
+''' main.py
+    Ryan Stenmark <ryanpstenmark@gmail.com>
+    July 12th, 2018
+'''
+
 import NodeGraph
 from NodeGraph import dist
+import NodeGraphVis as nodegv
 import random as rng
-
+import pyglet as pyg
+from pyglet.gl import *
 
 def build_nodes(num_nodes=3, max_weight=3):
     ''' Build a random node graph '''
@@ -41,5 +48,21 @@ def test_find_neighbors():
                 str(edge[0])[25:-1], str(edge[1]))
             )
 
+def pyglet_init(graph):
+    window = pyg.window.Window()
+    batch = nodegv.build_gl_render_batch(graph.nodes)
+
+    @window.event
+    def on_draw():
+        window.clear()
+        batch.draw()
+
+    pyg.app.run()
+
 if __name__ == '__main__':
-    test_find_neighbors()
+    # Generate a set of random nodes
+    ng = NodeGraph.Graph(build_nodes(30, 4))
+    # Find their neigbors
+    ng.find_all_neighbors()
+    # Visualize graph
+    pyglet_init(ng)
