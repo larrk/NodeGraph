@@ -38,7 +38,7 @@ def test_find_neighbors():
     for this_node in ng.nodes:
         edges = this_node.find_neighbors(ng)
         neighbor_count = len(this_node.neighbors)
-
+'''
         print("{0} has {1} neighbors:".format(
             str(this_node)[25:-1], neighbor_count)
         )
@@ -47,6 +47,7 @@ def test_find_neighbors():
             print("\t:{0}, {1} units away".format(
                 str(edge[0])[25:-1], str(edge[1]))
             )
+'''
 
 def pyglet_init(graph):
     window = pyg.window.Window()
@@ -61,7 +62,7 @@ def pyglet_init(graph):
 
 if __name__ == '__main__':
     # Generate a set of random nodes
-    ng = NodeGraph.Graph(build_nodes(30, 4))
+    ng = NodeGraph.Graph(build_nodes(100, 4))
     # Find their neigbors
     ng.find_all_neighbors()
     # Visualize graph

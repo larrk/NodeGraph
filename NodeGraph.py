@@ -17,7 +17,7 @@ class Graph(object):
         if type(nodes) == type(None):
             nodes = []
             for i in range(0, count):
-                xy = (rng.randint(-10, 10), rng.randint(-10, 10))
+                xy = (rng.uniform(-10, 10), rng.uniform(-10, 10))
                 nodes.append(NodeGraph.Node(xy, rng.randint(1, weightiness)))
 
             self.nodes = nodes
