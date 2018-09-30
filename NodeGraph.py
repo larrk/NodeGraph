@@ -3,7 +3,6 @@
     July 12th, 2018
 '''
 
-#import pyglet
 from math import sqrt
 from operator import itemgetter
 

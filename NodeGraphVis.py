@@ -3,32 +3,62 @@
     July 14th, 2018
 '''
 
-import NodeGraph
 import pyglet as pyg
 
-def build_gl_render_batch(nodes):
+def build_gl_batch_nodes(nodes, point_size=4, line_width=2, scaling=15):
+    ''' Batch a list of nodes to render in one draw call '''
+
+    # Instantiate batch
     batch = pyg.graphics.Batch()
-    pyg.gl.glPointSize(4)
-    pyg.gl.glLineWidth(2)
+
+    # Configure render options
+    pyg.gl.glPointSize(point_size)
+    pyg.gl.glLineWidth(line_width)
     offset = (300, 250)
-    magnif = 15
+    scale = scaling
 
+    def transform(xy):
+        ''' Transform coordinates according to render options '''
+        x = xy[0] * scale + offset[0]
+        y = xy[1] * scale + offset[1]
+        return [x, y]
+
+    # For every node
     for node in nodes:
-        x1 = node.xy[0]*magnif + offset[0]
-        y1 = node.xy[1]*magnif + offset[1]
-        #print("{0}, {1}".format(x1, y1))
+        # Get this node's coordinates and transform
+        xy1 = [
+            node.xy[0],
+            node.xy[1]
+        ]
 
+        # Transform node coordinates
+        xy1 = transform(xy1)
 
+        # For every neighbor to this node
         for neighbor in node.neighbors:
-            x2 = neighbor[0].xy[0]*magnif + offset[0]
-            y2 = neighbor[0].xy[1]*magnif + offset[1]
+
+            # Get the neighbor's coordinates
+            xy2 = [
+                neighbor[0].xy[0],
+                neighbor[0].xy[1]
+            ]
+            
+            # Transform neighbor coordinates
+            xy2 = transform(xy2)
+
+            # Determine line color
             cost_r = neighbor[1]/4
             cost_g = 1-cost_r
-            #print("\t{0}, {1}, cost: {2}".format(x2, y2, neighbor[1]))
+
+            # Unpack line coordinates
+            x1, y1, x2, y2 = xy1[0], xy1[1], xy2[0], xy2[1]
+            
+            # Add line to batch
             batch.add(2, pyg.gl.GL_LINES, None,
                 ('v2i', (x1, y1, x2, y2)),
                 ('c3f', (cost_r, cost_g, 0, cost_r, cost_g, 0)))
 
+        # Add point to batch
         batch.add(1, pyg.gl.GL_POINTS, None,
             ('v2i', (x1, y1)))
 
