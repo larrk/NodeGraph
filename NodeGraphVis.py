@@ -18,7 +18,7 @@ def build_gl_batch_nodes(nodes, point_size=4, line_width=2, scaling=15):
     scale = scaling
 
     def transform(xy):
-        ''' Transform coordinates according to render options '''
+        ''' Transform coordinates a Qccording to render options '''
         x = xy[0] * scale + offset[0]
         y = xy[1] * scale + offset[1]
         return [x, y]
@@ -55,12 +55,11 @@ def build_gl_batch_nodes(nodes, point_size=4, line_width=2, scaling=15):
             
             # Add line to batch
             batch.add(2, pyg.gl.GL_LINES, None,
-                ('v2i', (x1, y1, x2, y2)),
-                ('c3f', (cost_r, cost_g, 0, cost_r, cost_g, 0)))
+                      ('v2i', (x1, y1, x2, y2)),
+                      ('c3f', (cost_r, cost_g, 0, cost_r, cost_g, 0)))
 
         # Add point to batch
         batch.add(1, pyg.gl.GL_POINTS, None,
-            ('v2i', (x1, y1)))
-
+                  ('v2i', (x1, y1)))
 
     return batch
