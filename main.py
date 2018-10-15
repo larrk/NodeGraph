@@ -10,16 +10,6 @@ from NodeGraph import dist
 import NodeGraphVis as nodegv
 import random as rng
 import pyglet as pyg
-from pyglet.gl import *
-
-def build_nodes(num_nodes=3, max_weight=3):
-    ''' Build a random node graph '''
-    nodes = []
-    for i in range(0, num_nodes):
-        xy = (rng.randint(-10, 10), rng.randint(-10, 10))
-        nodes.append(NodeGraph.Node(xy, rng.randint(1, max_weight)))
-    
-    return nodes
 
 
 def test_dist():
@@ -30,11 +20,13 @@ def test_dist():
 
     for this_coordinate in coordinates2d:
         for other_coordinate in coordinates2d:
-            print(this_coordinate, other_coordinate, dist(this_coordinate, other_coordinate))
+            print(this_coordinate, other_coordinate,
+                  dist(this_coordinate, other_coordinate))
+
 
 def test_find_neighbors():
     ''' NodeGraph.Graph.find_neighbors unit test '''
-    ng = NodeGraph.Graph(build_nodes(10, 8))
+    ng = NodeGraph.Graph([], 10, 8)
     for this_node in ng.nodes:
         edges = this_node.find_neighbors(ng)
         neighbor_count = len(this_node.neighbors)
@@ -49,6 +41,7 @@ def test_find_neighbors():
             )
 '''
 
+
 def pyglet_init(graph):
     window = pyg.window.Window()
     batch = nodegv.build_gl_render_batch(graph.nodes)
@@ -62,7 +55,7 @@ def pyglet_init(graph):
 
 if __name__ == '__main__':
     # Generate a set of random nodes
-    ng = NodeGraph.Graph(build_nodes(100, 4))
+    ng = NodeGraph.Graph([], 40, 4)
     # Find their neigbors
     ng.find_all_neighbors()
     # Visualize graph
