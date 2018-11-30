@@ -26,7 +26,5 @@ def pyglet_init(graph):
 if __name__ == '__main__':
     # Generate a set of random nodes
     ng = nodeg.Graph([], 40, 4)
-    # Find their neigbors
-    ng.find_all_neighbors()
     # Visualize graph
     pyglet_init(ng)

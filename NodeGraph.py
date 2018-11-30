@@ -14,7 +14,8 @@ def dist(xy1, xy2):
 
 
 class Graph(object):
-    def __init__(self, nodes=[], count=10, weightiness=3):
+    def __init__(self, nodes=[], count=10, weightiness=3, find_neighbors=True):
+
         if nodes == []:
             for _ in range(0, count):
                 xy = (randint(-10, 10), randint(-10, 10))
@@ -23,6 +24,12 @@ class Graph(object):
             self.nodes = nodes
         else:
             self.nodes = nodes
+
+        def find_all_neighbors(self):
+            for node in self.nodes:
+                node.find_neighbors(self)
+
+        if find_neighbors is True: self.find_all_neighbors()
 
     def find_all_neighbors(self):
         for node in self.nodes:
