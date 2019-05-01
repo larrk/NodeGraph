@@ -14,12 +14,12 @@ def dist(xy1, xy2):
 
 
 class Graph(object):
-    def __init__(self, nodes=[], count=10, weightiness=3, find_neighbors=True):
-
+    def __init__(self, nodes=[], count=10, weight=4, find_neighbors=True):
+        self.weight = weight
         if nodes == []:
             for _ in range(0, count):
-                xy = (randint(-10, 10), randint(-10, 10))
-                nodes.append(Node(xy, randint(1, weightiness)))
+                xy = (randint(-310, 310), randint(-310, 310))
+                nodes.append(Node(xy, weight))
 
             self.nodes = nodes
         else:
@@ -33,11 +33,26 @@ class Graph(object):
 
     def find_all_neighbors(self):
         for node in self.nodes:
+            node.weight = self.weight
             node.find_neighbors(self)
+
+    def on_mouse_scroll(self, x, y, scroll_x, scroll_y):
+        if self.weight == 1 and scroll_y < 0:
+            return
+        else:
+            self.weight += scroll_y
+        self.find_all_neighbors()
+
+    def pushNode(self, xy):
+        self.nodes.append(Node(xy, self.weight))
+        self.find_all_neighbors()
+
+    def popNode(self):
+        self.nodes.pop()
+        self.find_all_neighbors()
 
     def batch(self, glPointSize=4, glLineWidth=2):
         batch = pyg.graphics.Batch()
-        pyg.gl.glPointSize
 
 
 class Node(object):
